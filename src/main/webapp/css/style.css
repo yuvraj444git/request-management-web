@@ -1,0 +1,392 @@
+@charset "utf-8";
+/* CSS Document */
+.menu-bar, .menu-bar.horizontal {
+    overflow: visible;
+}
+.medium-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 45%;
+    max-width: 50%;
+}
+.menu-bar > li > a {
+    color: #868c8e;
+    height: 40px;
+    padding: 0px 30px 0px 15px;
+    font-size: 14px;
+    background: #23282a;
+    border-bottom: thin #161a1b solid;
+    transition: background 0.25s ease-out;
+}
+.menu-bar > li > a:hover {
+    background: #0195db;
+    color: #fff;
+}
+.medium-4 {
+    -ms-flex: 0 0 33.33333%;
+    flex: 0 0 33.33333%;
+    max-width: 14%;
+    /* margin-top:*/
+}
+.medium-8 {
+    -ms-flex: 0 0 66.66667%;
+    flex: 0 0 84.66667%;
+    max-width: 99.66667%;
+}
+.side-nav {
+    position: fixed;
+    width: auto;
+    height: 100%;
+    background: #23282a;
+    padding-top: 70px;
+}
+.title-bar {
+    background: #FFF;
+    padding: 0.5rem 1rem;
+    border-bottom: none !important;
+    -moz-box-shadow: 0px 0px 10px #ccc;
+    -webkit-box-shadow: 0px 0px 10px #ccc;
+    box-shadow: 0px 0px 10px #ccc;
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+}
+.container {
+    position: relative;
+    top: 100px;
+    left: 20px;
+}
+.grid-block {
+    overflow: visible !important;
+}
+.sidemenu-img {
+    padding: 10px;
+    position: relative;
+    top: 8px;
+    width: 22%;
+}
+.sidemenu-img2 {
+    padding: 10px;
+    position: relative;
+}
+.action-sheet::before, .action-sheet::after {
+    top: 0px;
+    bottom: auto;
+    border-top: 0;
+    border-bottom: 0px solid white;
+}
+.action-sheet {
+    /*
+Core styles
+    */
+    position: absolute;
+    left: 50%;
+    width: 300px;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    /*
+Menu shadow
+    */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    /*
+Active state
+    */
+    /*
+  Menu tail
+    */
+    /*
+  Positioning
+    */
+    top: auto;
+    bottom: 0;
+    transform: translateX(-90%) translateY(105%);
+}
+.action-sheet.is-active {
+    transform: translateX(-90%) translateY(115%);
+}
+.action-sheet ul a {
+    display: block;
+    padding: 0.4rem;
+    line-height: 1;
+    color: #000;
+    border-top: 1px solid #f4f4f4;
+    text-align: -webkit-left;
+}
+.container-in {
+    width: 1300px;
+    position: relative;
+    margin: 0 auto; 
+    /*left: -17px;*/
+}
+.in-panel {
+    width: 41%;
+    display: inline-block;
+    margin-right: 80px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    vertical-align: top
+}
+.add {
+    background: url(../images/add.png) no-repeat center;
+    background-position: 0px -25px;
+    width: 25px;
+    height: 25px;
+    position: relative;
+    left: 4%;
+    top: 6px;
+    cursor: pointer;
+    display: inline-block !important;
+}
+.add:hover {
+    background-position: 0px 0px;
+}
+.select-add {
+    width: 88% !important;
+    display: inline-block;
+}
+.button {
+    font-size: 0.9rem;
+    display: inline-block;
+    width: auto;
+    padding: 0.9rem 3rem;
+    margin: 0 1rem 1rem 0;
+    background: #0195db;
+    border-radius: 3px;
+    color: #fff;
+}
+
+.addbutton {
+    font-size: 0.9rem;
+    /*    display: inline-block;*/
+    width: auto;
+    padding: 0.3rem 1rem;
+    height: 10px;
+    margin-top: -30px;
+    background: #0195db;
+    border-radius: 4px;
+    color: #fff;
+}
+.hr {
+    border: none;
+    background: none;
+    border-bottom: 2px solid #ccc;
+    position: relative;
+    /*	top: 10px;*/
+    top:10px;
+    z-index: -1;
+    width: 98%;
+}
+.right-panel {
+    float: left;
+}
+.right-panel {
+    float: right;
+    position: relative;
+    right: -87px;
+}
+.high-pri {
+    color: #ea6153;
+}
+.normal-pri {
+    color: #27ae60;
+}
+.pending-pri {
+    color: #f39c12;
+}
+.actionreq {
+    margin: 0 5px;
+}
+.radio-css {
+    margin-right: 30px;
+    margin-top: 10px;
+    display: inline-block;
+}
+.button.dark {
+    background: #232323;
+    color: #fff;
+}
+.button.dark:hover {
+    background: #000;
+    color: #fff;
+}
+.login-left-panel {
+    width: 50%;
+    height: 100%;
+    position: fixed;
+    background: url(../images/macbook-mockup-hero-ping-pong.jpg);
+    background-size: cover;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+.login-right-panel {
+    width: 50%;
+    height: 100%;
+    position: fixed;
+    background: #fff;
+    display: inline-block;
+    left: 50%;
+    padding: 12% 10%;
+}
+.login-logo {
+    width: 50%;
+    position: relative;
+    padding: 5% 0%;
+}
+.login-remember {
+    font-size: 14px;
+    color: #666;
+    position: relative;
+    top: -17px;
+    left: 23px;
+}
+hr {
+    border: solid #ddd;
+    border-width: 1px 0 0;
+    clear: both;
+    margin: 0.5rem 0rem;
+    height: 0;
+    text-decoration: underline;
+    margin: 2% 0;
+}
+.left-panel-pre {
+    line-height: 26px;
+    font-size: 14px;
+    color: #666;
+}
+.right-panel-pre {
+    float: right !important;
+    line-height: 26px;
+    font-size: 14px;
+    color: #666;
+    position: relative;
+    left: 40%;
+}
+.popup-to {
+    line-height: 26px;
+    font-size: 14px;
+    color: #666;
+    width: 700px;
+}
+.tablepop th, td {
+    padding: 10px;
+    font-size: 14px;
+    color: #333;
+    /*width: 800px;*/
+    line-height: 20px;
+}
+.create-new {
+    float: right;
+    position: relative;
+    right: -23px;
+}
+.dashboard-container {
+    position: relative;
+    top: 100px;
+    left: 27px;
+}
+.graphbg {
+    background: #FFF;
+    padding: 30px;
+    -moz-box-shadow: 0px 2px 3px #ccc;
+    -webkit-box-shadow: 0px 2px 3px #ccc;
+    box-shadow: 0px 2px 3px #ccc;
+}
+.right-select {
+    width: 300px;
+    position: relative;
+    left: 730px;
+    top: -40px;
+}
+.graph {
+    margin-top: -30px;
+}
+.box{
+    background:#FFF;
+    text-align:center;
+    padding:35px 50px;
+    border-radius:5px;
+    -moz-box-shadow: 0px 2px 3px #ccc;
+    -webkit-box-shadow: 0px 2px 3px #ccc;
+    box-shadow: 0px 2px 3px #ccc;
+    width:100%;
+    margin-top:20px;
+}
+.box-left{
+    margin-right:20px;
+}
+.box-right{
+    margin-left:20px;
+}
+.qlimg{
+    padding:15px;
+}
+/*developer css begins here*/
+.capitalize {
+    text-transform: capitalize;
+}
+
+/*css menu dropdown*/
+.HorizontalDropDown a{
+    color:inherit;
+    text-decoration:none;
+}
+
+.HorizontalDropDown ul {
+    text-align: left;
+    display: inline;
+    margin: 0;
+    padding: 15px 4px 17px 0;
+    list-style: none;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+.HorizontalDropDown  ul  li {
+    font: bold 12px/18px sans-serif;
+    display: inline-block;
+    margin-right: -4px;
+    position: relative;
+    padding: 15px 20px;
+    background: #fff;
+    cursor: pointer;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+}
+.HorizontalDropDown  ul  li:hover {
+    background: #555;
+    color: #fff;
+}
+.HorizontalDropDown  ul   li  ul {
+    padding: 0;
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: 150px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transiton: opacity 0.2s;
+    -moz-transition: opacity 0.2s;
+    -ms-transition: opacity 0.2s;
+    -o-transition: opacity 0.2s;
+    -transition: opacity 0.2s;
+}
+.HorizontalDropDown  ul  li  ul  li { 
+    background: #555; 
+    display: block; 
+    color: #fff;
+    text-shadow: 0 -1px 0 #000;
+}
+.HorizontalDropDown  ul  li  ul  li:hover { background: #666; }
+.HorizontalDropDown  ul  li:hover  ul {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}

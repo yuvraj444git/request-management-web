@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators>
+    <decorator name="basic-theme" page="/decorators/maintheme.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+    <decorator name="none">
+        <pattern>/</pattern>
+        <pattern>/Login</pattern>
+        <pattern>/verifyLogin</pattern>
+        
+        <pattern>/viewOutwardSlip</pattern>
+        <pattern>/viewInwardSlip</pattern>
+        
+    </decorator>
+</decorators>
