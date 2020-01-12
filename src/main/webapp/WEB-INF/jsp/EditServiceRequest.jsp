@@ -15,6 +15,11 @@
 
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <style>
+            .ui-widget.ui-widget-content {
+                background-color: #c6e8f5;
+            }
+        </style>
         <script>
             $(document).ready(function () {
                 $("#btnInsertID").click(function (e) {

@@ -9,7 +9,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="assets/stylesheets/jquery-ui-y.css">
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
         <link rel="stylesheet" type="text/css" href="assets/manual_css/cdn_1_10_20_datatables.min.css">  
         <!--<link rel="stylesheet" type="text/css" href="assets/vendor/jquery-datatables-bs3/assets/css/datatables.css">-->  
@@ -22,6 +24,127 @@
             $(document).ready(function () {
                 $(".tbServiceCls").DataTable();
             });
+        </script>
+        <script>
+            function checkStatus(obj, id) {
+                var status = $(obj).text();
+
+                if (status == 'Inprogress') {
+//                    alert(status);
+                    var txt;
+                    var r = confirm("Confirm Outward Request?");
+                    if (r == true) {
+                        txt = "You pressed OK!";
+                        $.ajax({
+                            url: "getAjaxUpdateOutward",
+                            type: 'POST',
+                            dataType: 'JSON',
+                            data: {
+                                servicerequest: id
+                            },
+                            success: function (data) {
+                                $("#custSerialSelectID").empty();
+                                if (data != "") {
+                                    $(obj).text('Outward');
+                                }
+                            },
+                            error: function (error) {
+                                alert('error; ' + eval(error));
+                            }
+                        });
+                    } else {
+                        txt = "You pressed Cancel!";
+                    }
+                }
+            }
+        </script>
+        <script>
+            $(document).ready(function () {
+                $(".modelDateCls").datepicker(
+                        {
+                            dateFormat: 'dd/mm/yy'
+                        }
+                );
+                var currentDate = new Date();
+                $(".modelDateCls").datepicker("setDate", currentDate);
+
+                $(".btnModelTaskInsert").click(function () {
+                    var isvalues = true;
+                    var desc = $(".modelDescCls").val();
+                    var date = $(".modelDateCls").val();
+                    $(".errModelDescCls").hide();
+                    if (desc == null || desc == '') {
+                        isvalues = false;
+                        $(".errModelDescCls").show();
+                    }
+                    $(".errModelDateCls").hide();
+                    if (date == null || date == '') {
+                        isvalues = false;
+                        $(".errModelDateCls").show();
+                    }
+                    if (isvalues) {
+                        $.ajax({
+                            url: "ajaxInsertServiceTask",
+                            type: 'POST',
+                            dataType: 'JSON',
+                            data:
+                                    $("#modelFormInsert").serialize()
+                            ,
+                            success: function (data) {
+                                $(".modelDescCls").val('');
+                                var currentDate = new Date();
+                                $(".modelDateCls").datepicker("setDate", currentDate);
+                                if (data != "") {
+                                    $(".modelTaskHistory tbody").append(`<tr>
+                                           <td style="text-align:left;">` + date + `</td>
+                                           <td style="text-align:left;">` + desc + `</td>
+                                           <td style="text-align:left;">` + '${sessionScope.EMPLOYEENAME}' + `</td>
+                                    </tr>`);
+                                }
+                            },
+                            error: function (error) {
+                                alert('error; ' + eval(error));
+                            }
+                        });
+                    }
+                });
+
+            });
+            function getPrevTaskInfo(serviceid) {
+                $(".modelServiceIdCls").val('');
+                $.ajax({
+                    url: "getAjaxServicePrvTask",
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        serviceid: serviceid
+                    },
+                    success: function (data) {
+                        $(".modelServiceIdCls").val(serviceid);
+                        $(".modelTaskHistory tbody").empty();
+                        if (data != "") {
+                            if (data.length > 0) {
+                                for (var i = 0; i < data.length; i++) {
+                                    $(".modelTaskHistory tbody").append(`<tr>
+                                           <td style="text-align:left;">` + data[i].dateadded + `</td>
+                                           <td style="text-align:left;">` + data[i].task_desc + `</td>
+                                           <td style="text-align:left;">` + data[i].addedbyname + `</td>
+                                    </tr>`);
+                                }
+                            } else {
+
+
+                                $(".modelTaskHistory tbody").append('<tr><td colspan="3"  style="text-align:center;">No Records found.</td></tr>');
+                            }
+                        } else {
+                            $(".modelTaskHistory tbody").append('<tr><td colspan="3" style="text-align:center;">No Records found.</td></tr>');
+                        }
+                    },
+                    error: function (error) {
+                        alert('error; ' + eval(error));
+                    }
+                });
+            }
         </script>
     </head>
     <body>
@@ -62,7 +185,7 @@
                                 <th>Contact No.</th>
                                 <th>Serial No.</th>
                                 <th>Status</th>
-                                <th>Amount</th>
+                                <!--<th>Amount</th>-->
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -82,12 +205,16 @@
                                     <td>${obj.custname}</td>
                                     <td>${obj.contact_no}</td>
                                     <td>${obj.currserialno}</td>
-                                    <td>${obj.service_status}</td>
-                                    <td>${obj.amount}</td>
+                                    <td>
+                                        <a onclick="checkStatus(this, '${obj.id}')" >${obj.service_status}</a>
+
+                                    </td>
+                                    <!--<td>${obj.amount}</td>-->
                                     <td class="actions">
                                         <a href="editServiceRequest?id=${obj.id}" title="Edit"><i class="fa fa-pencil"></i></a>
                                         <a href="viewInwardSlip?id=${obj.id}" target="_blank" title="Inward"><i class="fa fa-download"></i></a>
                                         <a href="viewOutwardSlip?id=${obj.id}" target="_blank" title="Outward"><i class="fa fa-upload"></i></a>
+                                        <a data-toggle="modal" href="#myModal" onclick="getPrevTaskInfo('${obj.id}')">Task</a>
                                         <!--<a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>-->
                                     </td>
                                 </tr>
@@ -97,6 +224,68 @@
                 </div>
             </section>
         </section>
+
+        <!--start model-->
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Service Task</h4>
+                    </div>
+                    <form action="insertServiceTask" id="modelFormInsert">
+                        <div class="modal-body">
+                            <!--<p>Some text in the modal.</p>-->
+                            <table>
+                                <tr>
+                                    <td style="padding: 10px;">Date</td>
+                                    <td style="padding: 10px;">:</td>
+                                    <td style="padding: 10px;">
+                                        <input type="text" name="dateadded" class="form-control modelDateCls">
+                                        <label class="error errModelDateCls" style="display: none">Required.</label>
+                                        <input type="text" name="serviceid" class="form-control hidden modelServiceIdCls">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px;">Description</td>
+                                    <td style="padding: 10px;">:</td>
+                                    <td style="padding: 10px;">
+                                        <textarea type="text" name="task_desc" class="form-control modelDescCls"></textarea>
+                                        <label class="error errModelDescCls" style="display: none">Required.</label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="modal-footer" style=" text-align: center;">
+                            <button type="button" class="btn btn-primary btnModelTaskInsert" >Submit</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <table class="modelTaskHistory" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Added By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div> 
+        <!--end model-->
+
         <!--<script src="assets/javascripts/tables/examples.datatables.row.with.details.js"></script>-->
     </body>
 </html>

@@ -48,14 +48,14 @@
                                         </div>
                                         <div class="widget-summary-col">
                                             <div class="summary">
-                                                <h4 class="title">Support Questions</h4>
+                                                <h4 class="title">Total Service Requests</h4>
                                                 <div class="info">
-                                                    <strong class="amount">1281</strong>
-                                                    <span class="text-primary">(14 unread)</span>
+                                                    <strong class="amount">${TotalServiceRequest[0].totalcount}</strong>
+                                                    <span class="text-primary"></span>
                                                 </div>
                                             </div>
                                             <div class="summary-footer">
-                                                <a class="text-muted text-uppercase">(view all)</a>
+                                                <a class="text-muted text-uppercase"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -68,18 +68,19 @@
                                     <div class="widget-summary">
                                         <div class="widget-summary-col widget-summary-col-icon">
                                             <div class="summary-icon bg-secondary">
-                                                <i class="fa fa-usd"></i>
+                                                <i class="fa fa-life-ring"></i>
                                             </div>
                                         </div>
                                         <div class="widget-summary-col">
                                             <div class="summary">
-                                                <h4 class="title">Total Profit</h4>
+                                                <h4 class="title">Inward Requests</h4>
                                                 <div class="info">
-                                                    <strong class="amount">$ 14,890.30</strong>
+                                                    <strong class="amount">${InwardServiceRequest[0].totalcount}</strong>
+                                                    <span class="text-primary"></span>
                                                 </div>
                                             </div>
                                             <div class="summary-footer">
-                                                <a class="text-muted text-uppercase">(withdraw)</a>
+                                                <a class="text-muted text-uppercase"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -92,18 +93,19 @@
                                     <div class="widget-summary">
                                         <div class="widget-summary-col widget-summary-col-icon">
                                             <div class="summary-icon bg-tertiary">
-                                                <i class="fa fa-shopping-cart"></i>
+                                                <i class="fa fa-life-ring"></i>
                                             </div>
                                         </div>
                                         <div class="widget-summary-col">
                                             <div class="summary">
-                                                <h4 class="title">Today's Orders</h4>
+                                                <h4 class="title">Inprogress Requests</h4>
                                                 <div class="info">
-                                                    <strong class="amount">38</strong>
+                                                    <strong class="amount">${InprogressServiceRequest[0].totalcount}</strong>
+                                                    <span class="text-primary"></span>
                                                 </div>
                                             </div>
                                             <div class="summary-footer">
-                                                <a class="text-muted text-uppercase">(statement)</a>
+                                                <a class="text-muted text-uppercase"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -116,18 +118,44 @@
                                     <div class="widget-summary">
                                         <div class="widget-summary-col widget-summary-col-icon">
                                             <div class="summary-icon bg-quartenary">
+                                                <i class="fa fa-life-ring"></i>
+                                            </div>
+                                        </div>
+                                        <div class="widget-summary-col">
+                                            <div class="summary">
+                                                <h4 class="title">Outward Requests</h4>
+                                                <div class="info">
+                                                    <strong class="amount">${OutwardServiceRequest[0].totalcount}</strong>
+                                                    <span class="text-primary"></span>
+                                                </div>
+                                            </div>
+                                            <div class="summary-footer">
+                                                <a class="text-muted text-uppercase"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        
+                        <div class="col-md-12 col-lg-6 col-xl-6">
+                            <section class="panel panel-featured-left panel-featured-quartenary">
+                                <div class="panel-body">
+                                    <div class="widget-summary">
+                                        <div class="widget-summary-col widget-summary-col-icon">
+                                            <div class="summary-icon bg-quartenary">
                                                 <i class="fa fa-user"></i>
                                             </div>
                                         </div>
                                         <div class="widget-summary-col">
                                             <div class="summary">
-                                                <h4 class="title">Today's Visitors</h4>
+                                                <h4 class="title">Customers</h4>
                                                 <div class="info">
-                                                    <strong class="amount">3765</strong>
+                                                    <strong class="amount">${TotalCustomers[0].totalcount}</strong>
                                                 </div>
                                             </div>
                                             <div class="summary-footer">
-                                                <a class="text-muted text-uppercase">(report)</a>
+                                                <a class="text-muted text-uppercase"></a>
                                             </div>
                                         </div>
                                     </div>

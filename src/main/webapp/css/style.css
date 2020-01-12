@@ -269,9 +269,10 @@ hr {
     width: 700px;
 }
 .tablepop th, td {
+    /*font-weight: 200;*/
     padding: 10px;
     font-size: 14px;
-    color: #333;
+    color: black;
     /*width: 800px;*/
     line-height: 20px;
 }

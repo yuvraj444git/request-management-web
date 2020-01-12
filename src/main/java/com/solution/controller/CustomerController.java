@@ -55,19 +55,32 @@ public class CustomerController {
     }
 
     @RequestMapping("addCustomer")
-    public ModelAndView addCustomer() {
+    public ModelAndView addCustomer(
+            @RequestParam(value = "from", required = false) String frompage
+    ) {
         ModelAndView mav = new ModelAndView("AddCustomer");
+        mav.addObject("frompage", frompage);
         return mav;
+    }
+
+    @RequestMapping("addCustomerModal")
+    public String addCustomerModal() {
+//        ModelAndView mav = new ModelAndView("AddCustomerModal");
+//        return mav;
+        return "AddCustomerModal";
     }
 
     @RequestMapping("insertCustomer")
     public ModelAndView insertCustomer(
             @ModelAttribute Customer customer,
             @ModelAttribute CustomerSerialNoArray array,
+            @RequestParam(value = "frompage", required = false) String frompage,
             HttpSession session) {
         ModelAndView mav = new ModelAndView("redirect:viewCustomerGrid");
         insertService.insert(customer);
-
+        if (frompage != null && !frompage.toString().equals("")) {
+            mav = new ModelAndView("redirect:addNewServiceRequest?custid=" + customer.getId());
+        }
         for (int i = 0; array.getSerialno() != null && i < array.getSerialno().length; i++) {
             CustomerSerialNo csn = new CustomerSerialNo();
 

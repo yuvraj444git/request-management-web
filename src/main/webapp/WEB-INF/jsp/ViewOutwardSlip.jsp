@@ -267,7 +267,7 @@
                             vertical-align: inherit;
                             border-color: inherit;">
                             <td style=" vertical-align: text-top;">
-                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.issue_by_cust}</textarea>
+                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;border: none;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.issue_by_cust}</textarea>
                                 <!--                                <table style="width:100%">
                                                                     <tr style="width: 100%">
                                                                         <td style="width:100%">${servicerequest.issue_by_cust}</td>
@@ -290,7 +290,7 @@
                             vertical-align: inherit;
                             border-color: inherit;">
                             <td style=" vertical-align: text-top;">
-                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.action_by_engg}</textarea>
+                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;border: none;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.action_by_engg}</textarea>
                                 <!--                                <table style="width:100%">
                                                                     <tr style="width: 100%;vertical-align: top;">
                                                                         <td style="width:100%">${servicerequest.condtion_product}</td>
@@ -298,7 +298,7 @@
                                                                 </table>-->
                             </td>
                             <td style=" vertical-align: text-top; ">
-                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.accessories_recd}</textarea>
+                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;border: none;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.accessories_recd}</textarea>
                                 <!--                                <table style="width:100%">
                                                                     <tr style="width: 100%">
                                                                         <td style="width:100%">
@@ -318,23 +318,23 @@
                         </tr>
                         <tr style="display: table-row;
                             vertical-align: inherit;
-                            border-color: inherit;">
-                            <td colspan="2" style=" vertical-align: text-top;width: 100%;">
-                                <table border="1"  style="width:100%">
-                                    <tr style="width: 100%">
-                                        <th style="width:20%;text-align: left;">Part No.</th>
-                                        <th style="width:20%;text-align: left;">Description</th>
-                                        <th style="width:20%;text-align: left;">Qty.</th>
-                                        <th style="width:20%;text-align: left;">Defective Serial</th>
-                                        <th style="width:20%;text-align: left;">Replaced Serial</th>
+                            border-color: inherit;padding: 0;">
+                            <td colspan="2" style=" vertical-align: text-top;width: 100%;padding: 0;">
+                                <table  style="width:100%;border: 1px solid black;border-collapse: collapse;">
+                                    <tr style="width: 100%;">
+                                        <th style="width:20%;text-align: left;border: 1px solid black;">Part No.</th>
+                                        <th style="width:20%;text-align: left;border: 1px solid black;">Description</th>
+                                        <th style="width:20%;text-align: left;border: 1px solid black;">Qty.</th>
+                                        <th style="width:20%;text-align: left;border: 1px solid black;">Defective Serial</th>
+                                        <th style="width:20%;text-align: left;border: 1px solid black;">Replaced Serial</th>
                                     </tr>
                                     <c:forEach var="ob" items="${servicespares}">
                                         <tr>
-                                            <td style="">${ob.partno}</td>
-                                            <td style="">${ob.part_desc}</td>
-                                            <td style="">${ob.qty}</td>
-                                            <td style="">${ob.defective_serial}</td>
-                                            <td style="">${ob.replaced_serial}</td>
+                                            <td style="border: 1px solid black;">${ob.partno}</td>
+                                            <td style="border: 1px solid black;">${ob.part_desc}</td>
+                                            <td style="border: 1px solid black;">${ob.qty}</td>
+                                            <td style="border: 1px solid black;">${ob.defective_serial}</td>
+                                            <td style="border: 1px solid black;">${ob.replaced_serial}</td>
                                         </tr>
                                     </c:forEach>
                                 </table>
