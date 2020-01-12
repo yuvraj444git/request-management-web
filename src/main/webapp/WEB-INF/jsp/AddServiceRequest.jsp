@@ -11,14 +11,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Service Request</title>
-<!--        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+        <!--        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
         <link rel="stylesheet" href="assets/stylesheets/jquery-ui-y.css">
 
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <style>
             .ui-widget.ui-widget-content {
-                background-color: #ffd2d2;
+                background-color: #c6e8f5;
             }
         </style>
         <script>
@@ -116,6 +116,7 @@
                             $(".custAddressCls").val(data.address);
                             $(".custContactNoCls").val(data.contact_no);
                             getCustomerSerialData(custid);
+                            $("#btnAddcustomer").hide();
                         },
                         response: function (event, ui) {
                             if (!ui.content.length) {
@@ -129,6 +130,12 @@
                             var exists = $.inArray(val, availableTags);
                             if (exists < 0) {
                                 //                                $(this).val("");
+                                $("#btnAddcustomer").show();
+                                $(".custIdCls").val('');
+                                $(".custAddressCls").val('');
+                                $(".custContactNoCls").val('');
+                                $("#custSerialSelectID").empty();
+                                $("#custSerialSelectID").append(`<option value=''>--Select Serial--</option>`);
                                 return false;
                             }
                         }
@@ -152,7 +159,7 @@
                             serialmapping = {};
                             $('.custSerialPrdNameCls').val("");
                             $('.custSerialModelNameCls').val("");
-                            if (data.length > 0) {
+                            if (data.length > 1) {
                                 $("#custSerialSelectID").append(`<option value=''>--Select Serial--</option>`);
                             }
                             for (var i = 0; i < data.length; i++) {
@@ -188,6 +195,24 @@
                 );
                 var currentDate = new Date();
                 $(".serviceDateCls").datepicker("setDate", currentDate);
+            });
+        </script>
+
+        <script>
+            function handler() {
+                if (this.readyState == this.DONE) {
+                    if (this.status == 200 && this.responseText != null) {
+                        $("#somediv").text(this.responseText);
+                        return;
+                    }
+                    console.log('Something went wrong! Status = ' + this.status);
+                }
+            }
+
+            var client = new XMLHttpRequest();
+            client.onreadystatechange = handler;
+
+            $(document).ready(function () {
             });
         </script>
     </head>
@@ -236,16 +261,18 @@
                                                 <h2 class="panel-title">Customer Details</h2>
                                             </header>
                                             <label class="control-label">Customer Name</label>
-                                            <input type="text" name="" placeholder="Select Name" id="customerID" class="form-control serviceCustNameCls ">
+                                            <input type="text" name="" placeholder="Select Name" id="customerID" class="form-control serviceCustNameCls " value="${custselected[0].name}">
                                             <label class="error errServiceCustNameCls" style="display: none">Required.</label>
+                                            <a class="mb-xs mt-xs mr-xs modal-sizes btn btn-warning" id="btnAddcustomer" href="addCustomer?from=servicerequest">add</a>
                                             <div></div>
-                                            <input type="text" name="cust_id" class="form-control hidden custIdCls">
+                                            <input type="text" name="cust_id" class="form-control hidden custIdCls" value="${custselected[0].id}">
                                             <!--                                        </div>
                                                                                     <div class="form-group">-->
                                             <label class="control-label">Contact No.</label>
-                                            <input type="text" name="" class="form-control custContactNoCls" readonly="">
+                                            <input type="text" name="" class="form-control custContactNoCls" readonly="" value="${custselected[0].contact_no}">
                                             <label class="control-label">Address</label>
-                                            <input type="text" name="" class="form-control custAddressCls" readonly="">
+                                            <input type="text" name="" class="form-control custAddressCls" readonly="" value="${custselected[0].address}">
+                                            <c:if test="${not empty custselected[0].id}"><script>getCustomerSerialData('${custselected[0].id}');</script></c:if>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -348,5 +375,9 @@
                 </div>
             </div>
         </section>
+
+        <div id="somediv" class="" style="display: none;">
+            <iframe id="thedialog" width="350" height="350"></iframe>
+        </div>
     </body>
 </html>

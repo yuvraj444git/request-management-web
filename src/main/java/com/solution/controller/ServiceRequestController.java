@@ -5,6 +5,7 @@
  */
 package com.solution.controller;
 
+import com.google.gson.Gson;
 import com.solution.model.ServiceInwardCheck;
 import com.solution.model.ServiceInwardCheckArray;
 import com.solution.model.ServiceRequest;
@@ -13,8 +14,10 @@ import com.solution.model.ServiceSparePartsArray;
 import com.solution.service.AllInsertService;
 import com.solution.service.AllUpdateService;
 import com.solution.service.AllViewService;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +50,9 @@ public class ServiceRequestController {
     }
 
     @RequestMapping("addNewServiceRequest")
-    public ModelAndView addNewServiceRequest(HttpSession session) {
+    public ModelAndView addNewServiceRequest(
+            @RequestParam(value = "custid", required = false) String custid,
+            HttpSession session) {
         ModelAndView mav = new ModelAndView("AddServiceRequest");
         mav.addObject("customersdt", viewService.getanyjdbcdatalist("SELECT \n"
                 + "    cust.*, GROUP_CONCAT(csn.serialno) allserials\n"
@@ -58,6 +63,17 @@ public class ServiceRequestController {
                 + "WHERE\n"
                 + "    cust.isdelete <> 'Y'\n"
                 + "GROUP BY cust.id"));
+        if (custid != null && !custid.toString().equals("")) {
+            mav.addObject("custselected", viewService.getanyjdbcdatalist("SELECT \n"
+                    + "    cust.*, GROUP_CONCAT(csn.serialno) allserials\n"
+                    + "FROM\n"
+                    + "    m_customers cust\n"
+                    + "        LEFT JOIN\n"
+                    + "    m_cust_serial_no csn ON csn.cust_id = cust.id\n"
+                    + "WHERE\n"
+                    + "    cust.isdelete <> 'Y' and cust.id='" + custid + "'\n"
+                    + "GROUP BY cust.id"));
+        }
         return mav;
     }
 
@@ -268,6 +284,18 @@ public class ServiceRequestController {
                 + "WHERE\n"
                 + "    isdelete <> 'Y' AND service_id = '" + serviceid + "'"));
         return mav;
+    }
+
+    //getAjaxUpdateOutward
+    @RequestMapping(value = "getAjaxUpdateOutward")
+    public void getAjaxUpdateOutward(@RequestParam(value = "servicerequest") String servicerequest,
+            HttpServletResponse response) throws IOException {
+        String jsondata = "";
+        updateService.updateanyjdbcdatalist("update t_service_request set service_status='Outward',modifydate=now() where id='" + servicerequest + "'");
+        jsondata = new Gson().toJson("updated");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsondata);
     }
 
 }

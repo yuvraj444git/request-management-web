@@ -265,7 +265,7 @@
                             vertical-align: inherit;
                             border-color: inherit;">
                             <td style=" vertical-align: text-top;">
-                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.issue_by_cust}</textarea>
+                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;border: none;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.issue_by_cust}</textarea>
                                 <!--                                <table style="width:100%">
                                                                     <tr style="width: 100%">
                                                                         <td style="width:100%">${servicerequest.issue_by_cust}</td>
@@ -288,7 +288,7 @@
                             vertical-align: inherit;
                             border-color: inherit;">
                             <td style=" vertical-align: text-top;">
-                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.condtion_product}</textarea>
+                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;border: none;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.condtion_product}</textarea>
                                 <!--                                <table style="width:100%">
                                                                     <tr style="width: 100%;vertical-align: top;">
                                                                         <td style="width:100%">${servicerequest.condtion_product}</td>
@@ -296,7 +296,8 @@
                                                                 </table>-->
                             </td>
                             <td style=" vertical-align: text-top; ">
-                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.accessories_recd}</textarea>
+                                <!--<div contenteditable="true" style="width: 300px;height: 200px;border: 1px solid #ccc;padding: 5px;">${servicerequest.accessories_recd}</div>-->
+                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;border: none;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.accessories_recd}</textarea>
                                 <!--                                <table style="width:100%">
                                                                     <tr style="width: 100%">
                                                                         <td style="width:100%">
