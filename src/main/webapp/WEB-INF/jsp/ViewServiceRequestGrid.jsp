@@ -96,9 +96,9 @@
                                 $(".modelDateCls").datepicker("setDate", currentDate);
                                 if (data != "") {
                                     $(".modelTaskHistory tbody").append(`<tr>
-                                           <td style="text-align:left;">` + date + `</td>
-                                           <td style="text-align:left;">` + desc + `</td>
-                                           <td style="text-align:left;">` + '${sessionScope.EMPLOYEENAME}' + `</td>
+                                           <td width="20%" style="text-align:left;">` + date + `</td>
+                                           <td width="50%" style="text-align:left;">` + desc + `</td>
+                                           <td width="30%" style="text-align:left;">` + '${sessionScope.EMPLOYEENAME}' + `</td>
                                     </tr>`);
                                 }
                             },
@@ -126,9 +126,9 @@
                             if (data.length > 0) {
                                 for (var i = 0; i < data.length; i++) {
                                     $(".modelTaskHistory tbody").append(`<tr>
-                                           <td style="text-align:left;">` + data[i].dateadded + `</td>
-                                           <td style="text-align:left;">` + data[i].task_desc + `</td>
-                                           <td style="text-align:left;">` + data[i].addedbyname + `</td>
+                                           <td width="20%" style="text-align:left;">` + data[i].dateadded + `</td>
+                                           <td width="50%" style="text-align:left;">` + data[i].task_desc + `</td>
+                                           <td width="30%" style="text-align:left;">` + data[i].addedbyname + `</td>
                                     </tr>`);
                                 }
                             } else {
@@ -266,16 +266,26 @@
                         </div>
                     </form>
                     <div class="modal-footer">
-                        <table class="modelTaskHistory" style="width: 100%;">
+                        <table class="" style="width: 100%;">
                             <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Description</th>
-                                    <th>Added By</th>
+                                <tr style="text-align: center;">
+                                    <th width="20%">Date</th>
+                                    <th width="50%">Description</th>
+                                    <th width="30%">Added By</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="" style=" overflow:scroll;height:100px;">
+                                            <table class="modelTaskHistory" style="width: 100%;">
+                                                <tbody>
 
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

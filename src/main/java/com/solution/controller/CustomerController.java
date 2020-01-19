@@ -13,7 +13,9 @@ import com.solution.service.AllInsertService;
 import com.solution.service.AllUpdateService;
 import com.solution.service.AllViewService;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,6 +157,64 @@ public class CustomerController {
         String jsondata = "";
         List<CustomerSerialNo> typeList = viewService.getanyhqldatalist("from m_cust_serial_no where cust_id='" + custid + "' and isdelete='N'");
         jsondata = new Gson().toJson(typeList);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsondata);
+    }
+
+    @RequestMapping(value = "insertAjaxCustSerials")
+    public void insertAjaxCustSerials(
+            @RequestParam(value = "custid") String custid,
+            @RequestParam(value = "model") String model,
+            @RequestParam(value = "prdname") String prdname,
+            @RequestParam(value = "serial") String serial,
+            HttpServletResponse response) throws IOException {
+        String jsondata = "";
+        Map<String, Object> output = new HashMap<>();
+        if (custid != null && !custid.equals("")) {
+            List<Map<String, Object>> chkSerial = viewService.getanyjdbcdatalist("select * from m_cust_serial_no where cust_id='" + custid + "' and serialno='" + serial + "' and isdelete <>'Y'");
+            boolean insertFlag = true;
+            if (chkSerial != null && chkSerial.size() > 0) {
+                insertFlag = false;
+                output.put("result", "duplicate");
+            }
+            if (insertFlag) {
+                CustomerSerialNo csn = new CustomerSerialNo();
+                csn.setCust_id(Long.parseLong(custid));
+                csn.setModel_name(model);
+                csn.setProduct_name(prdname);
+                csn.setSerialno(serial);
+                insertService.insert(csn);
+                output.put("result", "inserted");
+                output.put("serialid", csn.getId());
+                output.put("serial", csn.getSerialno());
+            }
+        }
+        jsondata = new Gson().toJson(output);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsondata);
+    }
+
+    @RequestMapping(value = "chkAjaxCustContact")
+    public void chkAjaxCustContact(
+            @RequestParam(value = "custid", required = false) String custid,
+            @RequestParam(value = "contactno") String contactno,
+            HttpServletResponse response) throws IOException {
+        String jsondata = "";
+        String query = "";
+        query = "select * from m_customers where contact_no='" + contactno + "' and isdelete<>'Y' ";
+        if (custid != null && !custid.equals("")) {
+            query += " and id not in ('" + custid + "')";
+        }
+        List<Map<String, Object>> custlst = viewService.getanyjdbcdatalist(query);
+        Map<String, Object> output = new HashMap<>();
+        if (custlst != null && custlst.size() > 0) {
+            output.put("result", "duplicate");
+        } else {
+            output.put("result", "");
+        }
+        jsondata = new Gson().toJson(output);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsondata);

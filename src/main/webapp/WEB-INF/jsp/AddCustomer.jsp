@@ -36,6 +36,27 @@
                     if (contactno == null || contactno == '') {
                         isValue = false;
                         $('.errCustContactCls').show();
+                        $('.errCustContactCls').text('Required').show();
+                    } else {
+                        $.ajax({
+                            url: "chkAjaxCustContact",
+                            type: 'POST',
+                            dataType: 'JSON',
+                            async: false,
+                            data: {
+                                contactno: contactno
+                            },
+                            success: function (data) {
+
+                                if (data.result == "duplicate") {
+                                    isValue = false;
+                                    $('.errCustContactCls').text('Duplicate No.').show();
+                                }
+                            },
+                            error: function (error) {
+                                alert('error; ' + eval(error));
+                            }
+                        });
                     }
 
                     $('.errCustAddrCls').hide();
