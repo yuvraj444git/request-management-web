@@ -34,6 +34,29 @@
                     if (contactno == null || contactno == '') {
                         isValue = false;
                         $('.errCustContactCls').show();
+                        $('.errCustContactCls').text('Required').show();
+                    } else {
+                        var editCustomerId = $("#editCustomerId").val();
+                        $.ajax({
+                            url: "chkAjaxCustContact",
+                            type: 'POST',
+                            dataType: 'JSON',
+                            async: false,
+                            data: {
+                                contactno: contactno,
+                                custid: editCustomerId
+                            },
+                            success: function (data) {
+
+                                if (data.result == "duplicate") {
+                                    isValue = false;
+                                    $('.errCustContactCls').text('Duplicate No.').show();
+                                }
+                            },
+                            error: function (error) {
+                                alert('error; ' + eval(error));
+                            }
+                        });
                     }
 
                     $('.errCustAddrCls').hide();
@@ -134,7 +157,7 @@
                                     <div class="col-md-6">
                                         <input type="text" class="form-control custNameCls" name="name" value="${customerdt.name}" >
                                         <label class="error errCustNameCls" style="display: none">This field is required.</label>
-                                        <input type="text" class="form-control hidden" name="id"  value="${customerdt.id}">
+                                        <input type="text" class="form-control hidden" name="id" id="editCustomerId"  value="${customerdt.id}">
                                     </div>
                                 </div>
                                 <div class="form-group">

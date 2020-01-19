@@ -134,7 +134,7 @@
                                  -ms-interpolation-mode: bicubic;
                                  display: inline-block;
                                  vertical-align: middle; 
-                                 border: 0;" src="assets/images/logo.png">                                 
+                                 border: 0;" src="assets/images/samplelogo.jpg">                                 
 
                         </div>
                     </div>

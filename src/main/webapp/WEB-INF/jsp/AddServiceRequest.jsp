@@ -23,15 +23,15 @@
         </style>
         <script>
             $(document).ready(function () {
+
+                $("#btnAddSerialID").hide();
                 $("#btnInsertID").click(function (e) {
                     e.preventDefault();
                     $(this).hide();
                     var date = $('.serviceDateCls').val();
-
                     var cust = $('.serviceCustNameCls').val();
                     var serial = $('.serviceCustSerialCls').val();
                     var isValue = true;
-
                     $('.errServiceDateCls').hide();
                     if (date == null || date == '') {
                         isValue = false;
@@ -53,7 +53,6 @@
                     $('.rowInComponentCls').each(function () {
                         var currobj = $(this);
                         var prdname = $(currobj).parents('tr').find('.rowInComponentCls').val();
-
                         $(currobj).parents('tr').find('.errRowInComponentCls').hide();
                         if (prdname == null || prdname == '') {
                             isValue = false;
@@ -69,7 +68,6 @@
 
                 });
             });
-
             function appendInward(ob) {
                 $(".inwardtbCls > tbody").append(`
                     <tr>
@@ -96,7 +94,6 @@
                 {id: "${ob.id}", address: `${ob.address}`, name: "${ob.name}", serialno: "${ob.allserials}", contact_no: "${ob.contact_no}"},
             </c:forEach>
             ];
-
             var availableTags = [];
             var mapping = {};
             $(function () {
@@ -117,6 +114,7 @@
                             $(".custContactNoCls").val(data.contact_no);
                             getCustomerSerialData(custid);
                             $("#btnAddcustomer").hide();
+                            $("#btnAddSerialID").show();
                         },
                         response: function (event, ui) {
                             if (!ui.content.length) {
@@ -131,6 +129,7 @@
                             if (exists < 0) {
                                 //                                $(this).val("");
                                 $("#btnAddcustomer").show();
+                                $("#btnAddSerialID").hide();
                                 $(".custIdCls").val('');
                                 $(".custAddressCls").val('');
                                 $(".custContactNoCls").val('');
@@ -142,8 +141,6 @@
                     });
                 });
             });
-
-
             var serialmapping = {};
             function getCustomerSerialData(custid) {
                 $.ajax({
@@ -159,9 +156,9 @@
                             serialmapping = {};
                             $('.custSerialPrdNameCls').val("");
                             $('.custSerialModelNameCls').val("");
-                            if (data.length > 1) {
-                                $("#custSerialSelectID").append(`<option value=''>--Select Serial--</option>`);
-                            }
+//                            if (data.length > 1) {
+                            $("#custSerialSelectID").append(`<option value=''>--Select Serial--</option>`);
+//                            }
                             for (var i = 0; i < data.length; i++) {
                                 $("#custSerialSelectID").append(`<option value='` + data[i].id + `'>` + data[i].serialno + `</option>`);
                                 serialmapping[data[i].id] = data[i];
@@ -211,10 +208,128 @@
 
             var client = new XMLHttpRequest();
             client.onreadystatechange = handler;
+        </script>
+
+        <script>
+            function checkCustForModal(obj) {
+                var custid = $(".custIdCls").val();
+                if (custid != null && custid != "") {
+                    $(".modalCustNameCls").val($("#customerID").val());
+                    $("#mySerialModal").modal("show");
+                } else {
+                    alert('select customer');
+                }
+            }
 
             $(document).ready(function () {
+                $(".btnModalSerialInsert").on('click', function (event) {
+                    event.preventDefault();
+                    var currBtnObj = $(this);
+                    $(currBtnObj).hide();
+                    var model = $(".modalModelCls").val();
+                    var prdname = $(".modalPrdNameCls").val();
+                    var serial = $(".modalSerialCls").val();
+                    var custid = $(".custIdCls").val();
+                    var isValue = true;
+                    $(".errMdlSerialCls").hide();
+                    if (serial == null || serial == "") {
+                        isValue = false;
+                        $(".errMdlSerialCls").show();
+                    }
+                    $(".errMdlPrdNameCls").hide();
+                    if (prdname == null || prdname == "") {
+                        isValue = false;
+                        $(".errMdlPrdNameCls").show();
+                    }
+                    $(".errMdlModelCls").hide();
+                    if (model == null || model == "") {
+                        isValue = false;
+                        $(".errMdlModelCls").show();
+                    }
+
+                    if (isValue) {
+
+                        $.ajax({
+                            url: "insertAjaxCustSerials",
+                            type: 'POST',
+                            dataType: 'JSON',
+                            data: {
+                                custid: custid,
+                                model: model,
+                                prdname: prdname,
+                                serial: serial
+                            },
+                            success: function (data) {
+                                if (data.result == 'inserted') {
+                                    $(".serviceCustSerialCls").append(`<option value="` + data.serialid + `">` + data.serial + `</option>`);
+                                }
+                                $(currBtnObj).show();
+                                $(".modalModelCls").val('');
+                                $(".modalPrdNameCls").val('');
+                                $(".modalSerialCls").val('');
+                                $("#mySerialModal").modal("hide");
+                            },
+                            error: function (error) {
+                                showNotification();
+                            }
+                        });
+                    } else {
+                        $(currBtnObj).show();
+                    }
+
+                });
             });
+            function showNotification() {
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 3000);
+            }
         </script>
+        <style>
+            #snackbar {
+                visibility: hidden;
+                min-width: 250px;
+                margin-left: -125px;
+                background-color: #333;
+                color: #fff;
+                text-align: center;
+                border-radius: 2px;
+                padding: 16px;
+                position: fixed;
+                z-index: 1;
+                left: 50%;
+                bottom: 30px;
+                font-size: 17px;
+            }
+
+            #snackbar.show {
+                visibility: visible;
+                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            }
+
+            @-webkit-keyframes fadein {
+                from {bottom: 0; opacity: 0;} 
+                to {bottom: 30px; opacity: 1;}
+            }
+
+            @keyframes fadein {
+                from {bottom: 0; opacity: 0;}
+                to {bottom: 30px; opacity: 1;}
+            }
+
+            @-webkit-keyframes fadeout {
+                from {bottom: 30px; opacity: 1;} 
+                to {bottom: 0; opacity: 0;}
+            }
+
+            @keyframes fadeout {
+                from {bottom: 30px; opacity: 1;}
+                to {bottom: 0; opacity: 0;}
+            }
+        </style>
     </head>
     <body>
         <section role="main" class="content-body">
@@ -284,6 +399,7 @@
                                             <select class="form-control serviceCustSerialCls" name="cust_prd_serial_id" id="custSerialSelectID" onchange="setPrdName(this)">
 
                                             </select>
+                                            <a class="mb-xs mt-xs mr-xs modal-sizes btn btn-warning" id="btnAddSerialID" onclick="checkCustForModal(this)" href="#mySerialModal" >add serial</a>
                                             <label class="error errServiceCustSerialCls" style="display: none">Required.</label>
                                             <!--<input type="text" name="" class="form-control">-->
                                             <!--<input type="text" name="cust_prd_serial_id" placeholder="serialid" class="form-control">-->
@@ -379,5 +495,69 @@
         <div id="somediv" class="" style="display: none;">
             <iframe id="thedialog" width="350" height="350"></iframe>
         </div>
+
+
+        <!--start model-->
+        <!-- Modal -->
+        <div class="modal fade" id="mySerialModal" role="dialog">
+            <div class="modal-dialog">
+
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add Serial For Customer</h4>
+                    </div>
+                    <form action="insertServiceTask" id="modelFormInsert">
+                        <div class="modal-body">
+                            <!--<p>Some text in the modal.</p>-->
+                            <table>
+                                <tr>
+                                    <td style="padding: 10px;">Customer Name</td>
+                                    <td style="padding: 10px;">:</td>
+                                    <td style="padding: 10px;">
+                                        <input type="text" name="" class="form-control modalCustNameCls" readonly="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px;">Serial No.</td>
+                                    <td style="padding: 10px;">:</td>
+                                    <td style="padding: 10px;">
+                                        <input type="text" name="modalserial" class="form-control modalSerialCls">
+                                        <label class="error errMdlSerialCls" style="display: none">Required.</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px;">Product Name</td>
+                                    <td style="padding: 10px;">:</td>
+                                    <td style="padding: 10px;">
+                                        <input type="text" name="modalPrdName" class="form-control modalPrdNameCls">
+                                        <label class="error errMdlPrdNameCls" style="display: none">Required.</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px;">Model</td>
+                                    <td style="padding: 10px;">:</td>
+                                    <td style="padding: 10px;">
+                                        <INPUT type="text" name="modalModel" class="form-control modalModelCls">
+                                        <label class="error errMdlModelCls" style="display: none">Required.</label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="modal-footer" style=" text-align: center;">
+                            <button type="button" class="btn btn-primary btnModalSerialInsert" >Submit</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+
+                </div>
+
+
+            </div>
+        </div> 
+        <!--end model-->
+        <div id="snackbar">Something went wrong..</div>
     </body>
 </html>
