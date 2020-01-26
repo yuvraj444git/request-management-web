@@ -98,8 +98,8 @@
             var mapping = {};
             $(function () {
                 for (var i = 0; i < customers.length; i++) {
-                    availableTags.push(customers[i].name);
-                    mapping[customers[i].name] = customers[i];
+                    availableTags.push(customers[i].name + ' (' + customers[i].contact_no + ')');
+                    mapping[customers[i].name + ' (' + customers[i].contact_no + ')' ] = customers[i];
                 }
                 $("input:text[id^='customerID']").on("focus.autocomplete", function () {
 

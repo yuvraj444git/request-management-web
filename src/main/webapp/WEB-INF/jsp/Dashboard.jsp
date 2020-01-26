@@ -27,14 +27,15 @@
                         <li><span>Dashboard</span></li>
                     </ol>
 
-                    <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+                    <!--                    <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>-->
+                    <a class="sidebar-right-toggle"></a>
                 </div>
             </header>
 
 
             <!-- start: page -->
             <div class="row">
-                
+
                 <div class="col-md-6 col-lg-12 col-xl-6">
                     <div class="row">
                         <div class="col-md-12 col-lg-6 col-xl-6">
@@ -137,7 +138,7 @@
                                 </div>
                             </section>
                         </div>
-                        
+
                         <div class="col-md-12 col-lg-6 col-xl-6">
                             <section class="panel panel-featured-left panel-featured-quartenary">
                                 <div class="panel-body">
@@ -168,7 +169,7 @@
 
 
 
-            
+
         </section>
     </body>
 </html>

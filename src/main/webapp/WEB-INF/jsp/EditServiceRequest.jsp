@@ -253,7 +253,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group col-md-12">
                                             <label class="control-label">Date</label>
-                                            <input type="text"  name="request_date" placeholder="Select Date" value="${servicerequest.request_date}" class="form-control serviceDateCls ">
+                                            <input type="text"  name="request_date" placeholder="Select Date" value="${servicerequest.request_date}" class="form-control serviceDateCls editFieldAdminCls">
                                             <label class="error errServiceDateCls" style="display: none">Required.</label>
 
                                             <input type="text"  name="id"  value="${servicerequest.id}" class="form-control hidden">
@@ -271,7 +271,7 @@
                                                 <h2 class="panel-title">Customer Details</h2>
                                             </header>
                                             <label class="control-label">Customer Name</label>
-                                            <input type="text" value="${servicerequest.custname}" name="" placeholder="Select Name" id="customerID" class="form-control serviceCustNameCls">
+                                            <input type="text" value="${servicerequest.custname}" name="" placeholder="Select Name" id="customerID" class="form-control serviceCustNameCls editFieldAdminCls">
                                             <label class="error errServiceCustNameCls" style="display: none">Required.</label>
                                             <input type="text" value="${servicerequest.cust_id}" name="cust_id" class="form-control hidden custIdCls">
                                             <!--                                        </div>
@@ -313,7 +313,7 @@
                                                 <h2 class="panel-title">Issues Reported By Customer</h2>
                                             </header>
 
-                                            <textarea  name="issue_by_cust" rows="5" class="form-control" placeholder="Issues Reported By Customer" required="">${servicerequest.issue_by_cust}</textarea>
+                                            <textarea  name="issue_by_cust" rows="5" class="form-control editFieldAdminCls" placeholder="Issues Reported By Customer" required="">${servicerequest.issue_by_cust}</textarea>
                                         </div>
 
                                     </div>
@@ -323,7 +323,7 @@
                                                 <h2 class="panel-title">Condition Of Product</h2>
                                             </header>
 
-                                            <textarea name="condtion_product" rows="5" class="form-control" placeholder="Condition Of Product" required="">${servicerequest.condtion_product}</textarea>
+                                            <textarea name="condtion_product" rows="5" class="form-control editFieldAdminCls" placeholder="Condition Of Product" required="">${servicerequest.condtion_product}</textarea>
                                         </div>
 
                                     </div>
@@ -377,7 +377,7 @@
                                                 <h2 class="panel-title">Accessories Received</h2>
                                             </header>
 
-                                            <textarea name="accessories_recd" rows="5" class="form-control" placeholder="Accessories Received" required="">${servicerequest.accessories_recd}</textarea>
+                                            <textarea name="accessories_recd" rows="5" class="form-control editFieldAdminCls" placeholder="Accessories Received" required="">${servicerequest.accessories_recd}</textarea>
                                         </div>
 
                                     </div>

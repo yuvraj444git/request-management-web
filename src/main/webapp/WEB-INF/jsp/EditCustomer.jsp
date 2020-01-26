@@ -50,7 +50,7 @@
 
                                 if (data.result == "duplicate") {
                                     isValue = false;
-                                    $('.errCustContactCls').text('Duplicate No.').show();
+                                    $('.errCustContactCls').text('Number already exists!!!').show();
                                 }
                             },
                             error: function (error) {
