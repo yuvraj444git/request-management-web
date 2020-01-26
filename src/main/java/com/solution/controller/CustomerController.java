@@ -65,13 +65,6 @@ public class CustomerController {
         return mav;
     }
 
-    @RequestMapping("addCustomerModal")
-    public String addCustomerModal() {
-//        ModelAndView mav = new ModelAndView("AddCustomerModal");
-//        return mav;
-        return "AddCustomerModal";
-    }
-
     @RequestMapping("insertCustomer")
     public ModelAndView insertCustomer(
             @ModelAttribute Customer customer,
@@ -215,6 +208,17 @@ public class CustomerController {
             output.put("result", "");
         }
         jsondata = new Gson().toJson(output);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsondata);
+    }
+
+    @RequestMapping(value = "updateAjaxDeleteCustomer")
+    public void updateAjaxDeleteCustomer(@RequestParam(value = "cid") String cid,
+            HttpServletResponse response) throws IOException {
+        String jsondata = "";
+        updateService.updateanyjdbcdatalist("update m_customers set isdelete='Y',modifydate=now() where id='" + cid + "'");
+        jsondata = new Gson().toJson("deleted");
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsondata);

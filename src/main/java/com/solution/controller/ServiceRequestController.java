@@ -298,4 +298,15 @@ public class ServiceRequestController {
         response.getWriter().write(jsondata);
     }
 
+    @RequestMapping(value = "updateAjaxDeleteServiceRequest")
+    public void updateAjaxDeleteServiceRequest(@RequestParam(value = "servicerequest") String servicerequest,
+            HttpServletResponse response) throws IOException {
+        String jsondata = "";
+        updateService.updateanyjdbcdatalist("update t_service_request set isdelete='Y',modifydate=now() where id='" + servicerequest + "'");
+        jsondata = new Gson().toJson("deleted");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsondata);
+    }
+
 }

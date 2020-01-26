@@ -20,9 +20,17 @@
         <link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Service Request</title>
+        <style>
+            .fa {
+                font-size: 18px !important;
+            }
+        </style>
         <script>
             $(document).ready(function () {
-                $(".tbServiceCls").DataTable();
+                $(".tbServiceCls").DataTable(
+                        {"order": [[1, "desc"]]
+                        }
+                );
             });
         </script>
         <script>
@@ -146,6 +154,39 @@
                 });
             }
         </script>
+
+        <script>
+            function setDelete(id) {
+                $(".modelDeleteServiceIdCls").val(id);
+            }
+
+            $(document).ready(function () {
+                $(document).on("click", ".btnModelDelete", function (event) {
+                    event.preventDefault();
+                    var serviceid = $(".modelDeleteServiceIdCls").val();
+                    $.ajax({
+                        url: "updateAjaxDeleteServiceRequest",
+                        type: 'POST',
+                        dataType: 'JSON',
+                        data: {
+                            servicerequest: serviceid
+                        },
+                        success: function (data) {
+                            $(".modelDeleteServiceIdCls").val('');
+                            if (data != "") {
+                                if (data == 'deleted') {
+                                    $(".row" + serviceid + "Cls").remove();
+                                    $("#deleteModal").modal("hide");
+                                }
+                            }
+                        },
+                        error: function (error) {
+                            alert('error; ' + eval(error));
+                        }
+                    });
+                });
+            });
+        </script>
     </head>
     <body>
         <section role="main" class="content-body">
@@ -198,7 +239,7 @@
                                 </tr>
                             </c:if>
                             <c:forEach var="obj" items="${servicerequestlist}">
-                                <tr>
+                                <tr class="row${obj.id}Cls ">
                                     <td>${obj.id}</td>
                                     <td>${obj.ref_id}</td>
                                     <td>${obj.request_date}</td>
@@ -215,7 +256,7 @@
                                         <a href="viewInwardSlip?id=${obj.id}" target="_blank" title="Inward"><i class="fa fa-download"></i></a>
                                         <a href="viewOutwardSlip?id=${obj.id}" target="_blank" title="Outward"><i class="fa fa-upload"></i></a>
                                         <a data-toggle="modal" href="#myModal" onclick="getPrevTaskInfo('${obj.id}')">Task</a>
-                                        <!--<a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>-->
+                                        <a data-toggle="modal" href="#deleteModal" onclick="setDelete('${obj.id}')" class="delete-row deleteObjCls"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -296,6 +337,32 @@
         </div> 
         <!--end model-->
 
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content" style="width: 400px !important">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Delete Service Request</h4>
+                    </div>
+                    <form action="#" id="modelFormDelete">
+                        <div class="modal-body">
+                            <p>Confirm ?</p>
+                            <input type="text" name="serviceid" class="form-control hidden modelDeleteServiceIdCls">
+                        </div>
+                        <div class="modal-footer" style=" text-align: center;">
+                            <button type="button" class="btn btn-primary btnModelDelete" >Yes</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+        </div> 
+        <!--end model-->
         <!--<script src="assets/javascripts/tables/examples.datatables.row.with.details.js"></script>-->
     </body>
 </html>

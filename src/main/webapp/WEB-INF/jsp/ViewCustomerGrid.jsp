@@ -17,10 +17,49 @@
 
         <!--        <script src="assets/javascripts/tables/examples.datatables.default.js"></script>
                 <script src="assets/javascripts/tables/examples.datatables.tabletools.js"></script>-->
-
+        <style>
+            .fa {
+                font-size: 18px !important;
+            }
+        </style>
         <script>
             $(document).ready(function () {
-                $(".tbServiceCls").DataTable();
+                $(".tbServiceCls").DataTable(
+                        {"order": [[1, "desc"]]
+                        }
+                );
+            });
+        </script>
+        <script>
+            function setDelete(id) {
+                $(".modelDeleteCustIdCls").val(id);
+            }
+
+            $(document).ready(function () {
+                $(document).on("click", ".btnModelDelete", function (event) {
+                    event.preventDefault();
+                    var custid = $(".modelDeleteCustIdCls").val();
+                    $.ajax({
+                        url: "updateAjaxDeleteCustomer",
+                        type: 'POST',
+                        dataType: 'JSON',
+                        data: {
+                            cid: custid
+                        },
+                        success: function (data) {
+                            $(".modelDeleteServiceIdCls").val('');
+                            if (data != "") {
+                                if (data == 'deleted') {
+                                    $(".row" + custid + "Cls").remove();
+                                    $("#deleteModal").modal("hide");
+                                }
+                            }
+                        },
+                        error: function (error) {
+                            alert('error; ' + eval(error));
+                        }
+                    });
+                });
             });
         </script>
     </head>
@@ -72,7 +111,7 @@
                                 </tr>
                             </c:if>
                             <c:forEach var="obj" items="${customerlist}">
-                                <tr>
+                                <tr class="row${obj.id}Cls ">
                                     <td>${obj.id}</td>
                                     <td>${obj.name}</td>
                                     <td>${obj.contact_no}</td>
@@ -80,7 +119,7 @@
                                     <td>${obj.allserials}</td>
                                     <td class="actions">
                                         <a href="editCustomer?id=${obj.id}"><i class="fa fa-pencil"></i></a>
-                                        <!--<a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>-->
+                                        <a data-toggle="modal" href="#deleteModal" onclick="setDelete('${obj.id}')" class="delete-row deleteObjCls"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -89,6 +128,33 @@
                 </div>
             </section>
         </section>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content" style="width: 400px !important">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Delete Customer</h4>
+                    </div>
+                    <form action="#" id="modelFormDelete">
+                        <div class="modal-body">
+                            <p>Confirm ?</p>
+                            <input type="text" name="" class="form-control hidden modelDeleteCustIdCls">
+                        </div>
+                        <div class="modal-footer" style=" text-align: center;">
+                            <button type="button" class="btn btn-primary btnModelDelete" >Yes</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+        </div> 
+        <!--end model-->
         <!--<script src="assets/javascripts/tables/examples.datatables.row.with.details.js"></script>-->
     </body>
 </html>
