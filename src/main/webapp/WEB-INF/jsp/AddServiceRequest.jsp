@@ -330,6 +330,43 @@
                 to {bottom: 0; opacity: 0;}
             }
         </style>
+        <script>
+            var allparts = [
+            <c:forEach var="obj" items="${allparts}">
+                {prdtype: "${obj.prdtype}", partname: `${obj.partname}`},
+            </c:forEach>
+            ];
+            function getPrdParts(obj) {
+                var selectedval = $(obj).val();
+                $(".partsTbodyCls").empty();
+                for (var i = 0; i < allparts.length; i++) {
+                    if (allparts[i].prdtype == selectedval) {
+                        $(".partsTbodyCls").append(`
+                                <tr>
+                                    <td><input type="checkbox" onchange="setDisable(this)"></td>
+                                    <td>
+                                        <input type="text" name="component" readonly="" value="` + allparts[i].partname + `" class="form-control rowInComponentCls " disabled="">  
+                                        <label class="error errRowInComponentCls" style="display: none">Required.</label>
+                                    </td>
+                                    <td>
+                                      <input type="text" name="description" class="form-control  " disabled="">  
+                                    </td>
+                                    <td>
+                                      
+                                    </td>
+                                </tr>`);
+                        //<button type="button" class="mb-xs mt-xs mr-xs btn btn-xs btn-danger" onclick="deleteRow(this)">-</button>  
+                    }
+                }
+            }
+            function setDisable(obj) {
+                if ($(obj).prop("checked")) {
+                    $(obj).parents("tr").find("input[type='text']").prop("disabled", false);
+                } else {
+                    $(obj).parents("tr").find("input[type='text']").prop("disabled", true);
+                }
+            }
+        </script>
     </head>
     <body>
         <section role="main" class="content-body">
@@ -422,8 +459,10 @@
                                             <textarea name="issue_by_cust" rows="5" class="form-control" placeholder="Issues Reported By Customer" required=""></textarea>
                                         </div>
 
-                                    </div>
-                                    <div class="col-md-6">
+
+
+                                        <!--                                    </div>
+                                                                            <div class="col-md-6">-->
                                         <div class="form-group col-md-12">
                                             <header class="panel-heading">
                                                 <h2 class="panel-title">Condition Of Product</h2>
@@ -432,38 +471,9 @@
                                             <textarea name="condtion_product" rows="5" class="form-control" placeholder="Condition Of Product" required=""></textarea>
                                         </div>
 
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group col-md-12">
-                                            <header class="panel-heading">
-                                                <h2 class="panel-title">Inward Check</h2>
-                                            </header>
-
-                                            <table class="inwardtbCls table table-bordered table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <td style="">Component</td>
-                                                        <td style="">Description</td>
-                                                        <td style="">#</td>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <td colspan="3">
-                                                            <button type="button" class="mb-xs mt-xs mr-xs btn btn-info" onclick="appendInward(this)">Add</button>
-                                                        </td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-6">
+                                        <!--                                    </div>
+                                        
+                                                                            <div class="col-md-6">-->
                                         <div class="form-group col-md-12">
                                             <header class="panel-heading">
                                                 <h2 class="panel-title">Accessories Received</h2>
@@ -473,7 +483,47 @@
                                         </div>
 
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group col-md-12">
+                                            <header class="panel-heading">
+                                                <h2 class="panel-title">Inward Check</h2>
+                                            </header>
+
+                                            <label class="control-label">Select Product Type</label>
+
+                                            <select class="form-control " name="prdtype"  onchange="getPrdParts(this)">
+                                                <option value="">--Select--</option>
+                                                <option value="ios">iOS Device</option>
+                                                <option value="mac">Mac Device</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                            <br>
+                                            <table class="inwardtbCls table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <td style="">&nbsp;</td>
+                                                        <td style="">Component</td>
+                                                        <td style="">Description</td>
+                                                        <td style="">#</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="partsTbodyCls">
+
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            <!--<button type="button" class="mb-xs mt-xs mr-xs btn btn-info" onclick="appendInward(this)">Add</button>-->
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
                                 </div>
+
 
 
                             </div>

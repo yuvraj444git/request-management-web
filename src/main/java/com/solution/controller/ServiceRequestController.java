@@ -15,8 +15,11 @@ import com.solution.service.AllInsertService;
 import com.solution.service.AllUpdateService;
 import com.solution.service.AllViewService;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +48,25 @@ public class ServiceRequestController {
     @RequestMapping("viewServiceRequestGrid")
     public ModelAndView viewEmployeeGrid(HttpSession session) {
         ModelAndView mav = new ModelAndView("ViewServiceRequestGrid");
-        mav.addObject("servicerequestlist", viewService.getanyjdbcdatalist("select sr.*,c.name custname,c.contact_no,csn.serialno currserialno from t_service_request sr inner join m_customers c on sr.cust_id=c.id inner join m_cust_serial_no csn on sr.cust_prd_serial_id=csn.id where sr.isdelete<>'Y' order by id desc "));
+//        mav.addObject("servicerequestlist", viewService.getanyjdbcdatalist("select sr.*,c.name custname,c.contact_no,csn.serialno currserialno from t_service_request sr inner join m_customers c on sr.cust_id=c.id inner join m_cust_serial_no csn on sr.cust_prd_serial_id=csn.id where sr.isdelete<>'Y' order by id desc "));
+        mav.addObject("servicerequestlist", viewService.getanyjdbcdatalist("SELECT \n"
+                + "    sr.*,\n"
+                + "    c.name custname,\n"
+                + "    c.contact_no,\n"
+                + "    csn.serialno currserialno,\n"
+                + "    GROUP_CONCAT(tsp.replaced_serial SEPARATOR '<br>') serialreplaced\n"
+                + "FROM\n"
+                + "    t_service_request sr\n"
+                + "        INNER JOIN\n"
+                + "    m_customers c ON sr.cust_id = c.id\n"
+                + "        INNER JOIN\n"
+                + "    m_cust_serial_no csn ON sr.cust_prd_serial_id = csn.id\n"
+                + "        LEFT JOIN\n"
+                + "    t_service_spare tsp ON tsp.service_id = sr.id\n"
+                + "WHERE\n"
+                + "    sr.isdelete <> 'Y'\n"
+                + "GROUP BY sr.id\n"
+                + "ORDER BY sr.id DESC"));
         return mav;
     }
 
@@ -63,6 +84,7 @@ public class ServiceRequestController {
                 + "WHERE\n"
                 + "    cust.isdelete <> 'Y'\n"
                 + "GROUP BY cust.id"));
+        mav.addObject("allparts", viewService.getanyjdbcdatalist("select * from product_parts"));
         if (custid != null && !custid.toString().equals("")) {
             mav.addObject("custselected", viewService.getanyjdbcdatalist("SELECT \n"
                     + "    cust.*, GROUP_CONCAT(csn.serialno) allserials\n"
@@ -85,7 +107,8 @@ public class ServiceRequestController {
             HttpSession session) {
         ModelAndView mav = new ModelAndView("redirect:viewServiceRequestGrid");
         serviceRequest.setService_status("Inward");
-        String pid = "AVR" + insertService.getmaxcount("t_service_request", "ref_id", 4);
+        DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2 digits
+        String pid = "B/" + df.format(Calendar.getInstance().getTime()) + "/" + insertService.getmaxcount("t_service_request", "ref_id", 6);
         serviceRequest.setRef_id(pid);
         serviceRequest.setAddedby(Long.parseLong(session.getAttribute("USERID").toString()));
         insertService.insert(serviceRequest);
@@ -118,7 +141,7 @@ public class ServiceRequestController {
                 + "WHERE\n"
                 + "    cust.isdelete <> 'Y'\n"
                 + "GROUP BY cust.id"));
-        mav.addObject("servicerequest", viewService.getanyjdbcdatalist("SELECT \n"
+        List<Map<String, Object>> servicerequest = viewService.getanyjdbcdatalist("SELECT \n"
                 + "    sr.*,c.name custname,c.contact_no,c.address,csn.serialno,csn.product_name,csn.model_name\n"
                 + "FROM\n"
                 + "    t_service_request sr\n"
@@ -127,7 +150,10 @@ public class ServiceRequestController {
                 + "        INNER JOIN\n"
                 + "    m_cust_serial_no csn ON csn.id = sr.cust_prd_serial_id\n"
                 + "WHERE\n"
-                + "    sr.isdelete <> 'Y' AND sr.id = '" + serviceid + "'").get(0));
+                + "    sr.isdelete <> 'Y' AND sr.id = '" + serviceid + "'");
+        mav.addObject("servicerequest", servicerequest.get(0));
+        mav.addObject("allparts", viewService.getanyjdbcdatalist("select * from product_parts"));
+        mav.addObject("prdtypeparts", viewService.getanyjdbcdatalist("select * from product_parts where prdtype='" + servicerequest.get(0).get("prdtype") + "' and partname not in (select component from t_service_inward_check where isdelete <> 'Y' AND service_id = '" + serviceid + "')"));
         mav.addObject("servicerequestinward", viewService.getanyjdbcdatalist("SELECT \n"
                 + "    *\n"
                 + "FROM\n"
@@ -171,6 +197,8 @@ public class ServiceRequestController {
             }
         }
         updateService.update(serviceRequest);
+
+        updateService.updateanyjdbcdatalist("update t_service_inward_check set isdelete='Y' where service_id='" + serviceRequest.getId() + "'");
 
         for (int i = 0; inwardCheckArray.getSic_id() != null && i < inwardCheckArray.getSic_id().length; i++) {
             ServiceInwardCheck serviceInwardCheck = new ServiceInwardCheck();

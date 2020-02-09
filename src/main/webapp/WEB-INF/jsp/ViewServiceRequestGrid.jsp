@@ -24,13 +24,26 @@
             .fa {
                 font-size: 18px !important;
             }
+            .text-wrap{
+                white-space:normal;
+            }
+            .width-200{
+                width:50px;
+            }
         </style>
         <script>
             $(document).ready(function () {
                 $(".tbServiceCls").DataTable(
-                        {"order": [[1, "desc"]]
-                        }
-                );
+                        {
+                            order: [[0, "desc"]],
+                            'columnDefs': [
+                                {
+                                    'targets': [0],
+                                    'visible': false,
+                                    'searchable': false
+                                }
+                            ]
+                        });
             });
         </script>
         <script>
@@ -86,10 +99,10 @@
                         $(".errModelDescCls").show();
                     }
                     $(".errModelDateCls").hide();
-                    if (date == null || date == '') {
-                        isvalues = false;
-                        $(".errModelDateCls").show();
-                    }
+//                    if (date == null || date == '') {
+//                        isvalues = false;
+//                        $(".errModelDateCls").show();
+//                    }
                     if (isvalues) {
                         $.ajax({
                             url: "ajaxInsertServiceTask",
@@ -134,7 +147,7 @@
                             if (data.length > 0) {
                                 for (var i = 0; i < data.length; i++) {
                                     $(".modelTaskHistory tbody").append(`<tr>
-                                           <td width="20%" style="text-align:left;">` + data[i].dateadded + `</td>
+                                           <td width="20%" style="text-align:left;">` + data[i].savedate + `</td>
                                            <td width="50%" style="text-align:left;">` + data[i].task_desc + `</td>
                                            <td width="30%" style="text-align:left;">` + data[i].addedbyname + `</td>
                                     </tr>`);
@@ -225,6 +238,7 @@
                                 <th>Customer</th>
                                 <th>Contact No.</th>
                                 <th>Serial No.</th>
+                                <th>Replaced Serial No.</th>
                                 <th>Status</th>
                                 <!--<th>Amount</th>-->
                                 <th>Action</th>
@@ -246,6 +260,7 @@
                                     <td>${obj.custname}</td>
                                     <td>${obj.contact_no}</td>
                                     <td>${obj.currserialno}</td>
+                                    <td>${obj.serialreplaced}</td>
                                     <td>
                                         <a onclick="checkStatus(this, '${obj.id}')" >${obj.service_status}</a>
 
@@ -282,7 +297,7 @@
                         <div class="modal-body">
                             <!--<p>Some text in the modal.</p>-->
                             <table>
-                                <tr>
+                                <tr style="display: none;">
                                     <td style="padding: 10px;">Date</td>
                                     <td style="padding: 10px;">:</td>
                                     <td style="padding: 10px;">
