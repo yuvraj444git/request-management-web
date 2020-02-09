@@ -28,9 +28,19 @@ public class ServiceRequest {
     private String request_date, ref_id, financial_year, service_status, amount;
     private long cust_id, cust_prd_serial_id, addedby;
 
-    private String issue_by_cust, condtion_product, accessories_recd, action_by_engg, engg_date,engg_id, isdelete = "N";
+    private String issue_by_cust, condtion_product, accessories_recd, action_by_engg, engg_date, engg_id, isdelete = "N";
 
     private String modifydate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+
+    private String prdtype;
+
+    public String getPrdtype() {
+        return prdtype;
+    }
+
+    public void setPrdtype(String prdtype) {
+        this.prdtype = prdtype;
+    }
 
     public String getModifydate() {
         return modifydate;

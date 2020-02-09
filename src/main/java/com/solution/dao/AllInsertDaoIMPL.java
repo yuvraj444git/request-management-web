@@ -42,7 +42,7 @@ public class AllInsertDaoIMPL implements AllInsertDao {
     @Override
     public String getmaxcount(String tablename, String columnname, int substringof) {
         String getcount;
-        SQLQuery data = sessionfactory.getCurrentSession().createSQLQuery("select max(cast(substring(" + columnname + " ," + substringof + ",CHAR_LENGTH(" + columnname + ") ) as decimal(15,0)))+1 from " + tablename + "");
+        SQLQuery data = sessionfactory.getCurrentSession().createSQLQuery("select LPAD(max(cast(substring(" + columnname + " ," + substringof + ",CHAR_LENGTH(" + columnname + ") ) as decimal(15,0)))+1,5,0) from " + tablename + "");
         List count = data.list();
         if (count.get(0) == null) {
             getcount = "1";

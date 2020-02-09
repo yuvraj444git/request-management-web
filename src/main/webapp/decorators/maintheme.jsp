@@ -69,8 +69,10 @@
         <script>
             $(document).ready(function () {
                 if ('${sessionScope.USERTYPE}' == 'Engineer')
+                {
                     $(".deleteObjCls").remove();
-                $(".editFieldAdminCls").attr('readonly', 'readonly');
+                    $(".editFieldAdminCls").attr('readonly', 'readonly');
+                }
             });
 
         </script>

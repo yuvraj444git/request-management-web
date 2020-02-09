@@ -128,20 +128,22 @@
                              -ms-overflow-style: -ms-autohiding-scrollbar;
                              display: block;
                          }">
-                        <div class="left-panel-pre" style="display: block;line-height: 26px;
+                        <div class="left-panel-pre" style="display:inline-block;line-height: 26px;
                              font-size: 14px;
-                             color: #666;">
-                            <img style="width: 120px; max-width: 100%;
+                             color: #666;text-align: center;width: 100%;">
+                            <img style="width: 165px; max-width: 100%;
                                  height: auto;
                                  -ms-interpolation-mode: bicubic;
                                  display: inline-block;
                                  vertical-align: middle; 
-                                 border: 0;" src="assets/images/samplelogo.jpg">                                 
-                            
+                                 border: 0;float: left !important;" src="assets/images/samplelogo.jpg">                                 
+                            <div style=" display: inline-block;margin-right: 165px;">
+                                <b style="color: #161a1b;font-size: 18px;text-align: center; ">Outward Report</b>
+                            </div>
                         </div>
-                        
+
                     </div>
-                    <hr>
+                    <hr style="margin: 1% 0 !important;">
                     <table border="1" class="tablepop" style="border-collapse: collapse;
                            border-spacing: 0; 
                            border-top-width: 1px;
@@ -164,7 +166,7 @@
                         <tr style="display: table-row;
                             vertical-align: inherit;
                             border-color: inherit;">
-                            <td>
+                            <td style="vertical-align: text-top;">
                                 <table style="width:100%">
                                     <tr style="width: 100%">
                                         <td style="width:30%">Date</td>
@@ -192,23 +194,33 @@
                                 <table style="width:100%">
                                     <tr style="width: 100%">
                                         <td style="width:30%">Name</td>
-                                        <td style="width:70%">AVR</td>
+                                        <td style="width:70%">AVR Solutions</td>
                                     </tr>
+                                    <!--                                    <tr>
+                                                                            <td style="">Contact Person</td>
+                                                                            <td style=""></td>
+                                                                        </tr>-->
                                     <tr>
-                                        <td style="">Contact Person</td>
-                                        <td style=""></td>
+                                        <td style=" vertical-align: text-top;">Address</td>
+                                        <td style="">G1, JD Alves Premises,<br>
+                                            Next to Union Bank of India,<br>
+                                            Behind Bandra Medical,<br>
+                                            Hill Road, Bandra West,<br>
+                                            Mumbai 400050<br>
+                                            MH, India.</td>
                                     </tr>
                                     <tr>
                                         <td style="">Conatct no.</td>
+                                        <td style="">+91-9702050576, +919869194900</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="">Email ID</td>
                                         <td style=""></td>
                                     </tr>
                                     <tr>
-                                        <td style="">Address</td>
-                                        <td style=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="">Address</td>
-                                        <td style=""></td>
+                                        <td style=" vertical-align: text-top;">Timings</td>
+                                        <td style="">Mon to Sat<br>
+                                            10:00AM to 8:00PM</td>
                                     </tr>
                                 </table>
                             </td>
@@ -268,7 +280,7 @@
                             vertical-align: inherit;
                             border-color: inherit;">
                             <td style=" vertical-align: text-top;">
-                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;border: none;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.issue_by_cust}</textarea>
+                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;border: none;resize: none;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.issue_by_cust}</textarea>
                                 <!--                                <table style="width:100%">
                                                                     <tr style="width: 100%">
                                                                         <td style="width:100%">${servicerequest.issue_by_cust}</td>
@@ -291,7 +303,7 @@
                             vertical-align: inherit;
                             border-color: inherit;">
                             <td style=" vertical-align: text-top;">
-                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;border: none;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.action_by_engg}</textarea>
+                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;border: none;resize: none;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.action_by_engg}</textarea>
                                 <!--                                <table style="width:100%">
                                                                     <tr style="width: 100%;vertical-align: top;">
                                                                         <td style="width:100%">${servicerequest.condtion_product}</td>
@@ -299,7 +311,7 @@
                                                                 </table>-->
                             </td>
                             <td style=" vertical-align: text-top; ">
-                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;border: none;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.accessories_recd}</textarea>
+                                <textarea readonly="" style="width: 98%;height: 100%;margin: 0px;border: none;resize: none;" name="accessories_recd" rows="5" class="form-control" placeholder="" required="">${servicerequest.accessories_recd}</textarea>
                                 <!--                                <table style="width:100%">
                                                                     <tr style="width: 100%">
                                                                         <td style="width:100%">
@@ -314,34 +326,38 @@
                             vertical-align: inherit;
                             border-color: inherit;">
                             <th colspan="2" style="text-align: left;width: 100%;">
-                                Spare Details
+                                <c:if test="${not empty servicespares}">
+                                    Spare Details
+                                </c:if>
                             </th>
                         </tr>
-                        <tr style="display: table-row;
-                            vertical-align: inherit;
-                            border-color: inherit;padding: 0;">
-                            <td colspan="2" style=" vertical-align: text-top;width: 100%;padding: 0;">
-                                <table  style="width:100%;border: 1px solid black;border-collapse: collapse;">
-                                    <tr style="width: 100%;">
-                                        <th style="width:20%;text-align: left;border: 1px solid black;">Part No.</th>
-                                        <th style="width:20%;text-align: left;border: 1px solid black;">Description</th>
-                                        <th style="width:20%;text-align: left;border: 1px solid black;">Qty.</th>
-                                        <th style="width:20%;text-align: left;border: 1px solid black;">Defective Serial</th>
-                                        <th style="width:20%;text-align: left;border: 1px solid black;">Replaced Serial</th>
-                                    </tr>
-                                    <c:forEach var="ob" items="${servicespares}">
-                                        <tr>
-                                            <td style="border: 1px solid black;">${ob.partno}</td>
-                                            <td style="border: 1px solid black;">${ob.part_desc}</td>
-                                            <td style="border: 1px solid black;">${ob.qty}</td>
-                                            <td style="border: 1px solid black;">${ob.defective_serial}</td>
-                                            <td style="border: 1px solid black;">${ob.replaced_serial}</td>
+                        <c:if test="${not empty servicespares}">
+                            <tr style="display: table-row;
+                                vertical-align: inherit;
+                                border-color: inherit;padding: 0;">
+                                <td colspan="2" style=" vertical-align: text-top;width: 100%;padding: 0;">
+                                    <table  style="width:100%;border: 1px solid black;border-collapse: collapse;">
+                                        <tr style="width: 100%;">
+                                            <th style="width:20%;text-align: left;border: 1px solid black;">Part No.</th>
+                                            <th style="width:20%;text-align: left;border: 1px solid black;">Description</th>
+                                            <th style="width:20%;text-align: left;border: 1px solid black;">Qty.</th>
+                                            <th style="width:20%;text-align: left;border: 1px solid black;">Defective Serial</th>
+                                            <th style="width:20%;text-align: left;border: 1px solid black;">Replaced Serial</th>
                                         </tr>
-                                    </c:forEach>
-                                </table>
-                            </td>
+                                        <c:forEach var="ob" items="${servicespares}">
+                                            <tr>
+                                                <td style="border: 1px solid black;">${ob.partno}</td>
+                                                <td style="border: 1px solid black;">${ob.part_desc}</td>
+                                                <td style="border: 1px solid black;">${ob.qty}</td>
+                                                <td style="border: 1px solid black;">${ob.defective_serial}</td>
+                                                <td style="border: 1px solid black;">${ob.replaced_serial}</td>
+                                            </tr>
+                                        </c:forEach>
+                                    </table>
+                                </td>
 
-                        </tr>
+                            </tr>
+                        </c:if>
                         <tr style="display: table-row;
                             vertical-align: inherit;
                             border-color: inherit;">
